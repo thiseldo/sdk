@@ -75,11 +75,8 @@ bool TheThingsUno::sendCommand(String cmd, const byte* buf, int length, int wait
   for (int i = 0; i < length; i++) {
     modemStream->print(btohexa_high(buf[i]));
     modemStream->print(btohexa_low(buf[i]));
-    debugStream->print(btohexa_high(buf[i]));
-    debugStream->print(btohexa_low(buf[i]));
   }
   modemStream->println();
-  debugStream->println();
 
   return waitForOK(waitTime);
 }
