@@ -1,2 +1,1 @@
-# sdk
-The Things Network Software Development Kits
+# The Things Network Software Development Kits
