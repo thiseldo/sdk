@@ -58,3 +58,19 @@ void loop() {
 ```
 
 Click Verify to compile the sketch. Click Upload to upload the example to your The Things Uno.
+
+## API
+
+TheThingsUno class features the following public methods:
+
+```C++
+  public:
+    void init(Stream& modemStream, Stream& debugStream);
+    void reset(bool adr = true, int fsb = DEFAULT_FSB);
+    bool personalize(const byte devAddr[4], const byte nwkSKey[16], const byte appSKey[16]);
+    bool join(const byte appEui[8], const byte appKey[16]);
+    void sendBytes(const byte* buffer, int length, int port = 1, bool confirm = false);
+    void sendString(String message, int port = 1, bool confirm = false);
+    void showStatus();
+}
+```
