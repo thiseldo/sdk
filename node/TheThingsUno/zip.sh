@@ -16,6 +16,7 @@ TDIR=/tmp/$DIRNAME
 
 mkdir -p ${TDIR}
 git ls-files |
+grep src/ |
 grep -v .gitignore |
 cpio -pmud ${TDIR}/
 (cd /tmp && zip -r $ZIPNAME.zip $DIRNAME)
