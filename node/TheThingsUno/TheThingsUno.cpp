@@ -37,7 +37,6 @@ bool TheThingsUno::waitForOK(int waitTime, String okMessage) {
 
 String TheThingsUno::readValue(String cmd) {
   modemStream->println(cmd);
-
   return readLine();
 }
 
@@ -103,19 +102,8 @@ void TheThingsUno::reset(bool adr, int fsb) {
 }
 
 bool TheThingsUno::enableFsbChannels(int fsb) {
-  if (fsb == 0)
-    return true;
-
-  int chLow, chHigh;
-  switch (fsb) {
-    case 7:
-      chLow = 48;
-      chHigh = 55;
-      break;
-    default:
-      debugPrintLn("Invalid FSB");
-      return false;
-  }
+  int chLow = fsb > 0 ? (fsb - 1) * 8 : 0;
+  int chHigh = fsb > 0 ? chLow + 7 : 71;
 
   for (int i = 0; i < 72; i++) {
     String command = "mac set ch status " + String(i);
@@ -145,9 +133,9 @@ bool TheThingsUno::personalize(const byte devAddr[4], const byte nwkSKey[16], co
 bool TheThingsUno::join(const byte appEui[8], const byte appKey[16]) {
   sendCommand("mac set appeui", appEui, 8);
   sendCommand("mac set appkey", appKey, 16);
-  sendCommand("mac join otaa", 10000);
+  sendCommand("mac join otaa");
 
-  if (readLine() != "accepted") {
+  if (readLine(10000) != "accepted") {
     debugPrintLn("Join not accepted");
     return false;
   }
@@ -162,8 +150,14 @@ void TheThingsUno::sendBytes(const byte* buffer, int length, int port, bool conf
     return;
   }
 
-  if (waitForOK(10000, "mac_tx_ok"))
-    debugPrintLn("Successful transmission");
+  String response = readLine(10000);
+  if (response == "")
+    debugPrintLn("Time-out")
+  else if (response == "mac_tx_ok")
+    debugPrintLn("Successful transmission")
+  //else if (response == "mac_rx_ok") // TODO: Handle downlink
+  else
+    debugPrintLn("Unexpected response: " + response);
 }
 
 void TheThingsUno::sendString(String message, int port, bool confirm) {
