@@ -72,5 +72,4 @@ TheThingsUno class features the following public methods:
     void sendBytes(const byte* buffer, int length, int port = 1, bool confirm = false);
     void sendString(String message, int port = 1, bool confirm = false);
     void showStatus();
-}
 ```
