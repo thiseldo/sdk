@@ -4,8 +4,6 @@
 #ifndef _THETHINGSUNO_H_
 #define _THETHINGSUNO_H_
 
-#define DEBUG
-
 #include <Arduino.h>
 #include <Stream.h>
 
@@ -19,14 +17,8 @@
   #define PWRIDX_915 5
 #endif
 
-#ifdef DEBUG
-  #warning Debug mode
-  #define debugPrintLn(...) { if (debugStream) debugStream->println(__VA_ARGS__); }
-  #define debugPrint(...) { if (debugStream) debugStream->print(__VA_ARGS__); }
-#else
-  #define debugPrintLn(...)
-  #define debugPrint(...)
-#endif
+#define debugPrintLn(...) { if (debugStream) debugStream->println(__VA_ARGS__); }
+#define debugPrint(...) { if (debugStream) debugStream->print(__VA_ARGS__); }
 
 class TheThingsUno
 {
