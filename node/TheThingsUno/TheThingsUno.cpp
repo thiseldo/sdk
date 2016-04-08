@@ -66,7 +66,7 @@ char btohexa_low(unsigned char b) {
     return (b > 0x9u) ? b + 'A' - 10 : b + '0';
 }
 
-bool TheThingsUno::sendCommand(String cmd, const byte* buf, int length, int waitTime) {
+bool TheThingsUno::sendCommand(String cmd, const byte *buf, int length, int waitTime) {
   debugPrintLn("Sending: " + cmd + " with " + String(length) + " bytes");
 
   modemStream->print(cmd + " ");
@@ -155,7 +155,7 @@ void TheThingsUno::sendBytes(const byte* buffer, int length, int port, bool conf
     debugPrintLn("Time-out")
   else if (response == "mac_tx_ok")
     debugPrintLn("Successful transmission")
-  //else if (response == "mac_rx_ok") // TODO: Handle downlink
+  //else if (response starts with "mac_rx_ok") // TODO: Handle downlink
   else
     debugPrintLn("Unexpected response: " + response);
 }
